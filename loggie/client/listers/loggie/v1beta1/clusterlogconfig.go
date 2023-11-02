@@ -30,8 +30,9 @@ type ClusterLogConfigLister interface {
 	// List lists all ClusterLogConfigs in the indexer.
 	// Objects returned here must be treated as read-only.
 	List(selector labels.Selector) (ret []*v1beta1.ClusterLogConfig, err error)
-	// ClusterLogConfigs returns an object that can list and get ClusterLogConfigs.
-	ClusterLogConfigs(namespace string) ClusterLogConfigNamespaceLister
+	// Get retrieves the ClusterLogConfig from the index for a given name.
+	// Objects returned here must be treated as read-only.
+	Get(name string) (*v1beta1.ClusterLogConfig, error)
 	ClusterLogConfigListerExpansion
 }
 
@@ -53,41 +54,9 @@ func (s *clusterLogConfigLister) List(selector labels.Selector) (ret []*v1beta1.
 	return ret, err
 }
 
-// ClusterLogConfigs returns an object that can list and get ClusterLogConfigs.
-func (s *clusterLogConfigLister) ClusterLogConfigs(namespace string) ClusterLogConfigNamespaceLister {
-	return clusterLogConfigNamespaceLister{indexer: s.indexer, namespace: namespace}
-}
-
-// ClusterLogConfigNamespaceLister helps list and get ClusterLogConfigs.
-// All objects returned here must be treated as read-only.
-type ClusterLogConfigNamespaceLister interface {
-	// List lists all ClusterLogConfigs in the indexer for a given namespace.
-	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v1beta1.ClusterLogConfig, err error)
-	// Get retrieves the ClusterLogConfig from the indexer for a given namespace and name.
-	// Objects returned here must be treated as read-only.
-	Get(name string) (*v1beta1.ClusterLogConfig, error)
-	ClusterLogConfigNamespaceListerExpansion
-}
-
-// clusterLogConfigNamespaceLister implements the ClusterLogConfigNamespaceLister
-// interface.
-type clusterLogConfigNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all ClusterLogConfigs in the indexer for a given namespace.
-func (s clusterLogConfigNamespaceLister) List(selector labels.Selector) (ret []*v1beta1.ClusterLogConfig, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*v1beta1.ClusterLogConfig))
-	})
-	return ret, err
-}
-
-// Get retrieves the ClusterLogConfig from the indexer for a given namespace and name.
-func (s clusterLogConfigNamespaceLister) Get(name string) (*v1beta1.ClusterLogConfig, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
+// Get retrieves the ClusterLogConfig from the index for a given name.
+func (s *clusterLogConfigLister) Get(name string) (*v1beta1.ClusterLogConfig, error) {
+	obj, exists, err := s.indexer.GetByKey(name)
 	if err != nil {
 		return nil, err
 	}
