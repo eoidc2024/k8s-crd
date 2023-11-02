@@ -23,6 +23,7 @@ import (
 // +genclient
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:path=sinks,scope=Cluster
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 type Sink struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -35,6 +36,7 @@ type SinkSpec struct {
 }
 
 // +kubebuilder:object:root=true
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 type SinkList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata"`

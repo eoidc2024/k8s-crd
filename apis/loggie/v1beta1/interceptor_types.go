@@ -24,6 +24,7 @@ import (
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:path=interceptors,shortName=icp,scope=Cluster
 // +genclient
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 type Interceptor struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -36,6 +37,7 @@ type InterceptorSpec struct {
 }
 
 // +kubebuilder:object:root=true
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 type InterceptorList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata"`

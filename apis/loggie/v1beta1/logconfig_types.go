@@ -30,6 +30,7 @@ const (
 // +kubebuilder:subresource:status
 // +kubebuilder:resource:path=logconfigs,shortName=lgc,scope=Namespaced
 // +genclient
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 type LogConfig struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -59,6 +60,7 @@ func (in *LogConfig) Validate() error {
 }
 
 // +kubebuilder:object:root=true
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 type LogConfigList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata"`
