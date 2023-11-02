@@ -13,6 +13,12 @@ const (
 	NATIVE    = 2
 )
 
+type ProfileConfigBase interface {
+	GetType() int
+	SetPid(PID)
+	GetPid() PID
+}
+
 type ProfileKind string
 
 const (
