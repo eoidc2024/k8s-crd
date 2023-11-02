@@ -32,6 +32,7 @@ import (
 // FakeSinks implements SinkInterface
 type FakeSinks struct {
 	Fake *FakeLoggieV1beta1
+	ns   string
 }
 
 var sinksResource = schema.GroupVersionResource{Group: "loggie.io", Version: "v1beta1", Resource: "sinks"}
@@ -41,7 +42,8 @@ var sinksKind = schema.GroupVersionKind{Group: "loggie.io", Version: "v1beta1", 
 // Get takes name of the sink, and returns the corresponding sink object, and an error if there is any.
 func (c *FakeSinks) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1beta1.Sink, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewRootGetAction(sinksResource, name), &v1beta1.Sink{})
+		Invokes(testing.NewGetAction(sinksResource, c.ns, name), &v1beta1.Sink{})
+
 	if obj == nil {
 		return nil, err
 	}
@@ -51,7 +53,8 @@ func (c *FakeSinks) Get(ctx context.Context, name string, options v1.GetOptions)
 // List takes label and field selectors, and returns the list of Sinks that match those selectors.
 func (c *FakeSinks) List(ctx context.Context, opts v1.ListOptions) (result *v1beta1.SinkList, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewRootListAction(sinksResource, sinksKind, opts), &v1beta1.SinkList{})
+		Invokes(testing.NewListAction(sinksResource, sinksKind, c.ns, opts), &v1beta1.SinkList{})
+
 	if obj == nil {
 		return nil, err
 	}
@@ -72,13 +75,15 @@ func (c *FakeSinks) List(ctx context.Context, opts v1.ListOptions) (result *v1be
 // Watch returns a watch.Interface that watches the requested sinks.
 func (c *FakeSinks) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
 	return c.Fake.
-		InvokesWatch(testing.NewRootWatchAction(sinksResource, opts))
+		InvokesWatch(testing.NewWatchAction(sinksResource, c.ns, opts))
+
 }
 
 // Create takes the representation of a sink and creates it.  Returns the server's representation of the sink, and an error, if there is any.
 func (c *FakeSinks) Create(ctx context.Context, sink *v1beta1.Sink, opts v1.CreateOptions) (result *v1beta1.Sink, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewRootCreateAction(sinksResource, sink), &v1beta1.Sink{})
+		Invokes(testing.NewCreateAction(sinksResource, c.ns, sink), &v1beta1.Sink{})
+
 	if obj == nil {
 		return nil, err
 	}
@@ -88,7 +93,8 @@ func (c *FakeSinks) Create(ctx context.Context, sink *v1beta1.Sink, opts v1.Crea
 // Update takes the representation of a sink and updates it. Returns the server's representation of the sink, and an error, if there is any.
 func (c *FakeSinks) Update(ctx context.Context, sink *v1beta1.Sink, opts v1.UpdateOptions) (result *v1beta1.Sink, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewRootUpdateAction(sinksResource, sink), &v1beta1.Sink{})
+		Invokes(testing.NewUpdateAction(sinksResource, c.ns, sink), &v1beta1.Sink{})
+
 	if obj == nil {
 		return nil, err
 	}
@@ -98,13 +104,14 @@ func (c *FakeSinks) Update(ctx context.Context, sink *v1beta1.Sink, opts v1.Upda
 // Delete takes name of the sink and deletes it. Returns an error if one occurs.
 func (c *FakeSinks) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	_, err := c.Fake.
-		Invokes(testing.NewRootDeleteActionWithOptions(sinksResource, name, opts), &v1beta1.Sink{})
+		Invokes(testing.NewDeleteActionWithOptions(sinksResource, c.ns, name, opts), &v1beta1.Sink{})
+
 	return err
 }
 
 // DeleteCollection deletes a collection of objects.
 func (c *FakeSinks) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	action := testing.NewRootDeleteCollectionAction(sinksResource, listOpts)
+	action := testing.NewDeleteCollectionAction(sinksResource, c.ns, listOpts)
 
 	_, err := c.Fake.Invokes(action, &v1beta1.SinkList{})
 	return err
@@ -113,7 +120,8 @@ func (c *FakeSinks) DeleteCollection(ctx context.Context, opts v1.DeleteOptions,
 // Patch applies the patch and returns the patched sink.
 func (c *FakeSinks) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1beta1.Sink, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewRootPatchSubresourceAction(sinksResource, name, pt, data, subresources...), &v1beta1.Sink{})
+		Invokes(testing.NewPatchSubresourceAction(sinksResource, c.ns, name, pt, data, subresources...), &v1beta1.Sink{})
+
 	if obj == nil {
 		return nil, err
 	}

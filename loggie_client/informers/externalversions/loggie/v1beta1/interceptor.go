@@ -41,32 +41,33 @@ type InterceptorInformer interface {
 type interceptorInformer struct {
 	factory          internalinterfaces.SharedInformerFactory
 	tweakListOptions internalinterfaces.TweakListOptionsFunc
+	namespace        string
 }
 
 // NewInterceptorInformer constructs a new informer for Interceptor type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewInterceptorInformer(client versioned.Interface, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
-	return NewFilteredInterceptorInformer(client, resyncPeriod, indexers, nil)
+func NewInterceptorInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
+	return NewFilteredInterceptorInformer(client, namespace, resyncPeriod, indexers, nil)
 }
 
 // NewFilteredInterceptorInformer constructs a new informer for Interceptor type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewFilteredInterceptorInformer(client versioned.Interface, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
+func NewFilteredInterceptorInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
 	return cache.NewSharedIndexInformer(
 		&cache.ListWatch{
 			ListFunc: func(options v1.ListOptions) (runtime.Object, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.LoggieV1beta1().Interceptors().List(context.TODO(), options)
+				return client.LoggieV1beta1().Interceptors(namespace).List(context.TODO(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.LoggieV1beta1().Interceptors().Watch(context.TODO(), options)
+				return client.LoggieV1beta1().Interceptors(namespace).Watch(context.TODO(), options)
 			},
 		},
 		&loggiev1beta1.Interceptor{},
@@ -76,7 +77,7 @@ func NewFilteredInterceptorInformer(client versioned.Interface, resyncPeriod tim
 }
 
 func (f *interceptorInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
-	return NewFilteredInterceptorInformer(client, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
+	return NewFilteredInterceptorInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
 }
 
 func (f *interceptorInformer) Informer() cache.SharedIndexInformer {

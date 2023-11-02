@@ -30,9 +30,8 @@ type SinkLister interface {
 	// List lists all Sinks in the indexer.
 	// Objects returned here must be treated as read-only.
 	List(selector labels.Selector) (ret []*v1beta1.Sink, err error)
-	// Get retrieves the Sink from the index for a given name.
-	// Objects returned here must be treated as read-only.
-	Get(name string) (*v1beta1.Sink, error)
+	// Sinks returns an object that can list and get Sinks.
+	Sinks(namespace string) SinkNamespaceLister
 	SinkListerExpansion
 }
 
@@ -54,9 +53,41 @@ func (s *sinkLister) List(selector labels.Selector) (ret []*v1beta1.Sink, err er
 	return ret, err
 }
 
-// Get retrieves the Sink from the index for a given name.
-func (s *sinkLister) Get(name string) (*v1beta1.Sink, error) {
-	obj, exists, err := s.indexer.GetByKey(name)
+// Sinks returns an object that can list and get Sinks.
+func (s *sinkLister) Sinks(namespace string) SinkNamespaceLister {
+	return sinkNamespaceLister{indexer: s.indexer, namespace: namespace}
+}
+
+// SinkNamespaceLister helps list and get Sinks.
+// All objects returned here must be treated as read-only.
+type SinkNamespaceLister interface {
+	// List lists all Sinks in the indexer for a given namespace.
+	// Objects returned here must be treated as read-only.
+	List(selector labels.Selector) (ret []*v1beta1.Sink, err error)
+	// Get retrieves the Sink from the indexer for a given namespace and name.
+	// Objects returned here must be treated as read-only.
+	Get(name string) (*v1beta1.Sink, error)
+	SinkNamespaceListerExpansion
+}
+
+// sinkNamespaceLister implements the SinkNamespaceLister
+// interface.
+type sinkNamespaceLister struct {
+	indexer   cache.Indexer
+	namespace string
+}
+
+// List lists all Sinks in the indexer for a given namespace.
+func (s sinkNamespaceLister) List(selector labels.Selector) (ret []*v1beta1.Sink, err error) {
+	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
+		ret = append(ret, m.(*v1beta1.Sink))
+	})
+	return ret, err
+}
+
+// Get retrieves the Sink from the indexer for a given namespace and name.
+func (s sinkNamespaceLister) Get(name string) (*v1beta1.Sink, error) {
+	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
 	if err != nil {
 		return nil, err
 	}

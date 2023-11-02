@@ -27,20 +27,20 @@ type FakeLoggieV1beta1 struct {
 	*testing.Fake
 }
 
-func (c *FakeLoggieV1beta1) ClusterLogConfigs() v1beta1.ClusterLogConfigInterface {
-	return &FakeClusterLogConfigs{c}
+func (c *FakeLoggieV1beta1) ClusterLogConfigs(namespace string) v1beta1.ClusterLogConfigInterface {
+	return &FakeClusterLogConfigs{c, namespace}
 }
 
-func (c *FakeLoggieV1beta1) Interceptors() v1beta1.InterceptorInterface {
-	return &FakeInterceptors{c}
+func (c *FakeLoggieV1beta1) Interceptors(namespace string) v1beta1.InterceptorInterface {
+	return &FakeInterceptors{c, namespace}
 }
 
 func (c *FakeLoggieV1beta1) LogConfigs(namespace string) v1beta1.LogConfigInterface {
 	return &FakeLogConfigs{c, namespace}
 }
 
-func (c *FakeLoggieV1beta1) Sinks() v1beta1.SinkInterface {
-	return &FakeSinks{c}
+func (c *FakeLoggieV1beta1) Sinks(namespace string) v1beta1.SinkInterface {
+	return &FakeSinks{c, namespace}
 }
 
 // RESTClient returns a RESTClient that is used to communicate

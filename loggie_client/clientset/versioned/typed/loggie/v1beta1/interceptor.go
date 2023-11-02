@@ -32,7 +32,7 @@ import (
 // InterceptorsGetter has a method to return a InterceptorInterface.
 // A group's client should implement this interface.
 type InterceptorsGetter interface {
-	Interceptors() InterceptorInterface
+	Interceptors(namespace string) InterceptorInterface
 }
 
 // InterceptorInterface has methods to work with Interceptor resources.
@@ -51,12 +51,14 @@ type InterceptorInterface interface {
 // interceptors implements InterceptorInterface
 type interceptors struct {
 	client rest.Interface
+	ns     string
 }
 
 // newInterceptors returns a Interceptors
-func newInterceptors(c *LoggieV1beta1Client) *interceptors {
+func newInterceptors(c *LoggieV1beta1Client, namespace string) *interceptors {
 	return &interceptors{
 		client: c.RESTClient(),
+		ns:     namespace,
 	}
 }
 
@@ -64,6 +66,7 @@ func newInterceptors(c *LoggieV1beta1Client) *interceptors {
 func (c *interceptors) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1beta1.Interceptor, err error) {
 	result = &v1beta1.Interceptor{}
 	err = c.client.Get().
+		Namespace(c.ns).
 		Resource("interceptors").
 		Name(name).
 		VersionedParams(&options, scheme.ParameterCodec).
@@ -80,6 +83,7 @@ func (c *interceptors) List(ctx context.Context, opts v1.ListOptions) (result *v
 	}
 	result = &v1beta1.InterceptorList{}
 	err = c.client.Get().
+		Namespace(c.ns).
 		Resource("interceptors").
 		VersionedParams(&opts, scheme.ParameterCodec).
 		Timeout(timeout).
@@ -96,6 +100,7 @@ func (c *interceptors) Watch(ctx context.Context, opts v1.ListOptions) (watch.In
 	}
 	opts.Watch = true
 	return c.client.Get().
+		Namespace(c.ns).
 		Resource("interceptors").
 		VersionedParams(&opts, scheme.ParameterCodec).
 		Timeout(timeout).
@@ -106,6 +111,7 @@ func (c *interceptors) Watch(ctx context.Context, opts v1.ListOptions) (watch.In
 func (c *interceptors) Create(ctx context.Context, interceptor *v1beta1.Interceptor, opts v1.CreateOptions) (result *v1beta1.Interceptor, err error) {
 	result = &v1beta1.Interceptor{}
 	err = c.client.Post().
+		Namespace(c.ns).
 		Resource("interceptors").
 		VersionedParams(&opts, scheme.ParameterCodec).
 		Body(interceptor).
@@ -118,6 +124,7 @@ func (c *interceptors) Create(ctx context.Context, interceptor *v1beta1.Intercep
 func (c *interceptors) Update(ctx context.Context, interceptor *v1beta1.Interceptor, opts v1.UpdateOptions) (result *v1beta1.Interceptor, err error) {
 	result = &v1beta1.Interceptor{}
 	err = c.client.Put().
+		Namespace(c.ns).
 		Resource("interceptors").
 		Name(interceptor.Name).
 		VersionedParams(&opts, scheme.ParameterCodec).
@@ -130,6 +137,7 @@ func (c *interceptors) Update(ctx context.Context, interceptor *v1beta1.Intercep
 // Delete takes name of the interceptor and deletes it. Returns an error if one occurs.
 func (c *interceptors) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	return c.client.Delete().
+		Namespace(c.ns).
 		Resource("interceptors").
 		Name(name).
 		Body(&opts).
@@ -144,6 +152,7 @@ func (c *interceptors) DeleteCollection(ctx context.Context, opts v1.DeleteOptio
 		timeout = time.Duration(*listOpts.TimeoutSeconds) * time.Second
 	}
 	return c.client.Delete().
+		Namespace(c.ns).
 		Resource("interceptors").
 		VersionedParams(&listOpts, scheme.ParameterCodec).
 		Timeout(timeout).
@@ -156,6 +165,7 @@ func (c *interceptors) DeleteCollection(ctx context.Context, opts v1.DeleteOptio
 func (c *interceptors) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1beta1.Interceptor, err error) {
 	result = &v1beta1.Interceptor{}
 	err = c.client.Patch(pt).
+		Namespace(c.ns).
 		Resource("interceptors").
 		Name(name).
 		SubResource(subresources...).

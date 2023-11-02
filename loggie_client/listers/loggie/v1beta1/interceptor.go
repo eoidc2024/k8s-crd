@@ -30,9 +30,8 @@ type InterceptorLister interface {
 	// List lists all Interceptors in the indexer.
 	// Objects returned here must be treated as read-only.
 	List(selector labels.Selector) (ret []*v1beta1.Interceptor, err error)
-	// Get retrieves the Interceptor from the index for a given name.
-	// Objects returned here must be treated as read-only.
-	Get(name string) (*v1beta1.Interceptor, error)
+	// Interceptors returns an object that can list and get Interceptors.
+	Interceptors(namespace string) InterceptorNamespaceLister
 	InterceptorListerExpansion
 }
 
@@ -54,9 +53,41 @@ func (s *interceptorLister) List(selector labels.Selector) (ret []*v1beta1.Inter
 	return ret, err
 }
 
-// Get retrieves the Interceptor from the index for a given name.
-func (s *interceptorLister) Get(name string) (*v1beta1.Interceptor, error) {
-	obj, exists, err := s.indexer.GetByKey(name)
+// Interceptors returns an object that can list and get Interceptors.
+func (s *interceptorLister) Interceptors(namespace string) InterceptorNamespaceLister {
+	return interceptorNamespaceLister{indexer: s.indexer, namespace: namespace}
+}
+
+// InterceptorNamespaceLister helps list and get Interceptors.
+// All objects returned here must be treated as read-only.
+type InterceptorNamespaceLister interface {
+	// List lists all Interceptors in the indexer for a given namespace.
+	// Objects returned here must be treated as read-only.
+	List(selector labels.Selector) (ret []*v1beta1.Interceptor, err error)
+	// Get retrieves the Interceptor from the indexer for a given namespace and name.
+	// Objects returned here must be treated as read-only.
+	Get(name string) (*v1beta1.Interceptor, error)
+	InterceptorNamespaceListerExpansion
+}
+
+// interceptorNamespaceLister implements the InterceptorNamespaceLister
+// interface.
+type interceptorNamespaceLister struct {
+	indexer   cache.Indexer
+	namespace string
+}
+
+// List lists all Interceptors in the indexer for a given namespace.
+func (s interceptorNamespaceLister) List(selector labels.Selector) (ret []*v1beta1.Interceptor, err error) {
+	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
+		ret = append(ret, m.(*v1beta1.Interceptor))
+	})
+	return ret, err
+}
+
+// Get retrieves the Interceptor from the indexer for a given namespace and name.
+func (s interceptorNamespaceLister) Get(name string) (*v1beta1.Interceptor, error) {
+	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
 	if err != nil {
 		return nil, err
 	}

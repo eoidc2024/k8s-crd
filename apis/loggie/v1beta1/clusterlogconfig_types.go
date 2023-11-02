@@ -22,15 +22,16 @@ import (
 )
 
 const (
-	SelectorTypePod      = "pod"
-	SelectorTypeNode     = "node"
-	SelectorTypeWorkload = "workload"
-	SelectorTypeCluster  = "cluster"
-	SelectorTypeAll      = "all"
+	SelectorTypePod     = "pod"
+	SelectorTypeNode    = "node"
+	SelectorTypeCluster = "cluster"
 )
 
+// ClusterLogConfig Deployment with Datadog Operator.
+// +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:resource:path=clusterlogconfigs,shortName=clgc,scope=Cluster
 // +genclient
-// +genclient:nonNamespaced
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 type ClusterLogConfig struct {
@@ -38,7 +39,7 @@ type ClusterLogConfig struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	Spec   Spec   `json:"spec"`
-	Status Status `json:"status"`
+	Status Status `json:"status,omitempty"`
 }
 
 type Spec struct {
@@ -92,7 +93,7 @@ func (in *ClusterLogConfig) Validate() error {
 	}
 
 	tp := in.Spec.Selector.Type
-	if tp != SelectorTypePod && tp != SelectorTypeNode && tp != SelectorTypeCluster && tp != SelectorTypeWorkload {
+	if tp != SelectorTypePod && tp != SelectorTypeNode && tp != SelectorTypeCluster {
 		return errors.New("spec.selector.type is invalid")
 	}
 
@@ -107,8 +108,7 @@ func (in *ClusterLogConfig) Validate() error {
 	return nil
 }
 
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-
+// +kubebuilder:object:root=true
 type ClusterLogConfigList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata"`

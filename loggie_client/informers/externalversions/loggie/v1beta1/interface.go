@@ -46,12 +46,12 @@ func New(f internalinterfaces.SharedInformerFactory, namespace string, tweakList
 
 // ClusterLogConfigs returns a ClusterLogConfigInformer.
 func (v *version) ClusterLogConfigs() ClusterLogConfigInformer {
-	return &clusterLogConfigInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
+	return &clusterLogConfigInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
 }
 
 // Interceptors returns a InterceptorInformer.
 func (v *version) Interceptors() InterceptorInformer {
-	return &interceptorInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
+	return &interceptorInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
 }
 
 // LogConfigs returns a LogConfigInformer.
@@ -61,5 +61,5 @@ func (v *version) LogConfigs() LogConfigInformer {
 
 // Sinks returns a SinkInformer.
 func (v *version) Sinks() SinkInformer {
-	return &sinkInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
+	return &sinkInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
 }

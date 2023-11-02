@@ -41,32 +41,33 @@ type ClusterLogConfigInformer interface {
 type clusterLogConfigInformer struct {
 	factory          internalinterfaces.SharedInformerFactory
 	tweakListOptions internalinterfaces.TweakListOptionsFunc
+	namespace        string
 }
 
 // NewClusterLogConfigInformer constructs a new informer for ClusterLogConfig type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewClusterLogConfigInformer(client versioned.Interface, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
-	return NewFilteredClusterLogConfigInformer(client, resyncPeriod, indexers, nil)
+func NewClusterLogConfigInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
+	return NewFilteredClusterLogConfigInformer(client, namespace, resyncPeriod, indexers, nil)
 }
 
 // NewFilteredClusterLogConfigInformer constructs a new informer for ClusterLogConfig type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewFilteredClusterLogConfigInformer(client versioned.Interface, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
+func NewFilteredClusterLogConfigInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
 	return cache.NewSharedIndexInformer(
 		&cache.ListWatch{
 			ListFunc: func(options v1.ListOptions) (runtime.Object, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.LoggieV1beta1().ClusterLogConfigs().List(context.TODO(), options)
+				return client.LoggieV1beta1().ClusterLogConfigs(namespace).List(context.TODO(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.LoggieV1beta1().ClusterLogConfigs().Watch(context.TODO(), options)
+				return client.LoggieV1beta1().ClusterLogConfigs(namespace).Watch(context.TODO(), options)
 			},
 		},
 		&loggiev1beta1.ClusterLogConfig{},
@@ -76,7 +77,7 @@ func NewFilteredClusterLogConfigInformer(client versioned.Interface, resyncPerio
 }
 
 func (f *clusterLogConfigInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
-	return NewFilteredClusterLogConfigInformer(client, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
+	return NewFilteredClusterLogConfigInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
 }
 
 func (f *clusterLogConfigInformer) Informer() cache.SharedIndexInformer {

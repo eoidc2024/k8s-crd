@@ -25,15 +25,17 @@ const (
 	PathStdout = "stdout"
 )
 
+// LogConfig Deployment with Datadog Operator.
+// +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:resource:path=logconfigs,shortName=lgc,scope=Namespaced
 // +genclient
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-
 type LogConfig struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	Spec   Spec   `json:"spec"`
-	Status Status `json:"status"`
+	Status Status `json:"status,omitempty"`
 }
 
 func (in *LogConfig) Validate() error {
@@ -56,8 +58,7 @@ func (in *LogConfig) Validate() error {
 	return nil
 }
 
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-
+// +kubebuilder:object:root=true
 type LogConfigList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata"`

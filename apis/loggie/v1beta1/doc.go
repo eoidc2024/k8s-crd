@@ -14,6 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+// The following line will generate deepcopy methods for the whole package
+// more info: https://pkg.go.dev/k8s.io/gengo/examples/deepcopy-gen
 // +k8s:deepcopy-gen=package
 // +groupName=loggie.io
 

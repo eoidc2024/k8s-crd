@@ -32,6 +32,7 @@ import (
 // FakeInterceptors implements InterceptorInterface
 type FakeInterceptors struct {
 	Fake *FakeLoggieV1beta1
+	ns   string
 }
 
 var interceptorsResource = schema.GroupVersionResource{Group: "loggie.io", Version: "v1beta1", Resource: "interceptors"}
@@ -41,7 +42,8 @@ var interceptorsKind = schema.GroupVersionKind{Group: "loggie.io", Version: "v1b
 // Get takes name of the interceptor, and returns the corresponding interceptor object, and an error if there is any.
 func (c *FakeInterceptors) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1beta1.Interceptor, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewRootGetAction(interceptorsResource, name), &v1beta1.Interceptor{})
+		Invokes(testing.NewGetAction(interceptorsResource, c.ns, name), &v1beta1.Interceptor{})
+
 	if obj == nil {
 		return nil, err
 	}
@@ -51,7 +53,8 @@ func (c *FakeInterceptors) Get(ctx context.Context, name string, options v1.GetO
 // List takes label and field selectors, and returns the list of Interceptors that match those selectors.
 func (c *FakeInterceptors) List(ctx context.Context, opts v1.ListOptions) (result *v1beta1.InterceptorList, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewRootListAction(interceptorsResource, interceptorsKind, opts), &v1beta1.InterceptorList{})
+		Invokes(testing.NewListAction(interceptorsResource, interceptorsKind, c.ns, opts), &v1beta1.InterceptorList{})
+
 	if obj == nil {
 		return nil, err
 	}
@@ -72,13 +75,15 @@ func (c *FakeInterceptors) List(ctx context.Context, opts v1.ListOptions) (resul
 // Watch returns a watch.Interface that watches the requested interceptors.
 func (c *FakeInterceptors) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
 	return c.Fake.
-		InvokesWatch(testing.NewRootWatchAction(interceptorsResource, opts))
+		InvokesWatch(testing.NewWatchAction(interceptorsResource, c.ns, opts))
+
 }
 
 // Create takes the representation of a interceptor and creates it.  Returns the server's representation of the interceptor, and an error, if there is any.
 func (c *FakeInterceptors) Create(ctx context.Context, interceptor *v1beta1.Interceptor, opts v1.CreateOptions) (result *v1beta1.Interceptor, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewRootCreateAction(interceptorsResource, interceptor), &v1beta1.Interceptor{})
+		Invokes(testing.NewCreateAction(interceptorsResource, c.ns, interceptor), &v1beta1.Interceptor{})
+
 	if obj == nil {
 		return nil, err
 	}
@@ -88,7 +93,8 @@ func (c *FakeInterceptors) Create(ctx context.Context, interceptor *v1beta1.Inte
 // Update takes the representation of a interceptor and updates it. Returns the server's representation of the interceptor, and an error, if there is any.
 func (c *FakeInterceptors) Update(ctx context.Context, interceptor *v1beta1.Interceptor, opts v1.UpdateOptions) (result *v1beta1.Interceptor, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewRootUpdateAction(interceptorsResource, interceptor), &v1beta1.Interceptor{})
+		Invokes(testing.NewUpdateAction(interceptorsResource, c.ns, interceptor), &v1beta1.Interceptor{})
+
 	if obj == nil {
 		return nil, err
 	}
@@ -98,13 +104,14 @@ func (c *FakeInterceptors) Update(ctx context.Context, interceptor *v1beta1.Inte
 // Delete takes name of the interceptor and deletes it. Returns an error if one occurs.
 func (c *FakeInterceptors) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	_, err := c.Fake.
-		Invokes(testing.NewRootDeleteActionWithOptions(interceptorsResource, name, opts), &v1beta1.Interceptor{})
+		Invokes(testing.NewDeleteActionWithOptions(interceptorsResource, c.ns, name, opts), &v1beta1.Interceptor{})
+
 	return err
 }
 
 // DeleteCollection deletes a collection of objects.
 func (c *FakeInterceptors) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	action := testing.NewRootDeleteCollectionAction(interceptorsResource, listOpts)
+	action := testing.NewDeleteCollectionAction(interceptorsResource, c.ns, listOpts)
 
 	_, err := c.Fake.Invokes(action, &v1beta1.InterceptorList{})
 	return err
@@ -113,7 +120,8 @@ func (c *FakeInterceptors) DeleteCollection(ctx context.Context, opts v1.DeleteO
 // Patch applies the patch and returns the patched interceptor.
 func (c *FakeInterceptors) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1beta1.Interceptor, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewRootPatchSubresourceAction(interceptorsResource, name, pt, data, subresources...), &v1beta1.Interceptor{})
+		Invokes(testing.NewPatchSubresourceAction(interceptorsResource, c.ns, name, pt, data, subresources...), &v1beta1.Interceptor{})
+
 	if obj == nil {
 		return nil, err
 	}
