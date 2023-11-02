@@ -32,7 +32,6 @@ import (
 // FakeClusterLogConfigs implements ClusterLogConfigInterface
 type FakeClusterLogConfigs struct {
 	Fake *FakeLoggieV1beta1
-	ns   string
 }
 
 var clusterlogconfigsResource = schema.GroupVersionResource{Group: "loggie.io", Version: "v1beta1", Resource: "clusterlogconfigs"}
@@ -42,8 +41,7 @@ var clusterlogconfigsKind = schema.GroupVersionKind{Group: "loggie.io", Version:
 // Get takes name of the clusterLogConfig, and returns the corresponding clusterLogConfig object, and an error if there is any.
 func (c *FakeClusterLogConfigs) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1beta1.ClusterLogConfig, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewGetAction(clusterlogconfigsResource, c.ns, name), &v1beta1.ClusterLogConfig{})
-
+		Invokes(testing.NewRootGetAction(clusterlogconfigsResource, name), &v1beta1.ClusterLogConfig{})
 	if obj == nil {
 		return nil, err
 	}
@@ -53,8 +51,7 @@ func (c *FakeClusterLogConfigs) Get(ctx context.Context, name string, options v1
 // List takes label and field selectors, and returns the list of ClusterLogConfigs that match those selectors.
 func (c *FakeClusterLogConfigs) List(ctx context.Context, opts v1.ListOptions) (result *v1beta1.ClusterLogConfigList, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewListAction(clusterlogconfigsResource, clusterlogconfigsKind, c.ns, opts), &v1beta1.ClusterLogConfigList{})
-
+		Invokes(testing.NewRootListAction(clusterlogconfigsResource, clusterlogconfigsKind, opts), &v1beta1.ClusterLogConfigList{})
 	if obj == nil {
 		return nil, err
 	}
@@ -75,15 +72,13 @@ func (c *FakeClusterLogConfigs) List(ctx context.Context, opts v1.ListOptions) (
 // Watch returns a watch.Interface that watches the requested clusterLogConfigs.
 func (c *FakeClusterLogConfigs) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
 	return c.Fake.
-		InvokesWatch(testing.NewWatchAction(clusterlogconfigsResource, c.ns, opts))
-
+		InvokesWatch(testing.NewRootWatchAction(clusterlogconfigsResource, opts))
 }
 
 // Create takes the representation of a clusterLogConfig and creates it.  Returns the server's representation of the clusterLogConfig, and an error, if there is any.
 func (c *FakeClusterLogConfigs) Create(ctx context.Context, clusterLogConfig *v1beta1.ClusterLogConfig, opts v1.CreateOptions) (result *v1beta1.ClusterLogConfig, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewCreateAction(clusterlogconfigsResource, c.ns, clusterLogConfig), &v1beta1.ClusterLogConfig{})
-
+		Invokes(testing.NewRootCreateAction(clusterlogconfigsResource, clusterLogConfig), &v1beta1.ClusterLogConfig{})
 	if obj == nil {
 		return nil, err
 	}
@@ -93,8 +88,7 @@ func (c *FakeClusterLogConfigs) Create(ctx context.Context, clusterLogConfig *v1
 // Update takes the representation of a clusterLogConfig and updates it. Returns the server's representation of the clusterLogConfig, and an error, if there is any.
 func (c *FakeClusterLogConfigs) Update(ctx context.Context, clusterLogConfig *v1beta1.ClusterLogConfig, opts v1.UpdateOptions) (result *v1beta1.ClusterLogConfig, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewUpdateAction(clusterlogconfigsResource, c.ns, clusterLogConfig), &v1beta1.ClusterLogConfig{})
-
+		Invokes(testing.NewRootUpdateAction(clusterlogconfigsResource, clusterLogConfig), &v1beta1.ClusterLogConfig{})
 	if obj == nil {
 		return nil, err
 	}
@@ -105,8 +99,7 @@ func (c *FakeClusterLogConfigs) Update(ctx context.Context, clusterLogConfig *v1
 // Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
 func (c *FakeClusterLogConfigs) UpdateStatus(ctx context.Context, clusterLogConfig *v1beta1.ClusterLogConfig, opts v1.UpdateOptions) (*v1beta1.ClusterLogConfig, error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewUpdateSubresourceAction(clusterlogconfigsResource, "status", c.ns, clusterLogConfig), &v1beta1.ClusterLogConfig{})
-
+		Invokes(testing.NewRootUpdateSubresourceAction(clusterlogconfigsResource, "status", clusterLogConfig), &v1beta1.ClusterLogConfig{})
 	if obj == nil {
 		return nil, err
 	}
@@ -116,14 +109,13 @@ func (c *FakeClusterLogConfigs) UpdateStatus(ctx context.Context, clusterLogConf
 // Delete takes name of the clusterLogConfig and deletes it. Returns an error if one occurs.
 func (c *FakeClusterLogConfigs) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	_, err := c.Fake.
-		Invokes(testing.NewDeleteActionWithOptions(clusterlogconfigsResource, c.ns, name, opts), &v1beta1.ClusterLogConfig{})
-
+		Invokes(testing.NewRootDeleteActionWithOptions(clusterlogconfigsResource, name, opts), &v1beta1.ClusterLogConfig{})
 	return err
 }
 
 // DeleteCollection deletes a collection of objects.
 func (c *FakeClusterLogConfigs) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	action := testing.NewDeleteCollectionAction(clusterlogconfigsResource, c.ns, listOpts)
+	action := testing.NewRootDeleteCollectionAction(clusterlogconfigsResource, listOpts)
 
 	_, err := c.Fake.Invokes(action, &v1beta1.ClusterLogConfigList{})
 	return err
@@ -132,8 +124,7 @@ func (c *FakeClusterLogConfigs) DeleteCollection(ctx context.Context, opts v1.De
 // Patch applies the patch and returns the patched clusterLogConfig.
 func (c *FakeClusterLogConfigs) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1beta1.ClusterLogConfig, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewPatchSubresourceAction(clusterlogconfigsResource, c.ns, name, pt, data, subresources...), &v1beta1.ClusterLogConfig{})
-
+		Invokes(testing.NewRootPatchSubresourceAction(clusterlogconfigsResource, name, pt, data, subresources...), &v1beta1.ClusterLogConfig{})
 	if obj == nil {
 		return nil, err
 	}

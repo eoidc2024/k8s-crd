@@ -38,8 +38,8 @@ type LoggieV1beta1Client struct {
 	restClient rest.Interface
 }
 
-func (c *LoggieV1beta1Client) ClusterLogConfigs(namespace string) ClusterLogConfigInterface {
-	return newClusterLogConfigs(c, namespace)
+func (c *LoggieV1beta1Client) ClusterLogConfigs() ClusterLogConfigInterface {
+	return newClusterLogConfigs(c)
 }
 
 func (c *LoggieV1beta1Client) Interceptors(namespace string) InterceptorInterface {
@@ -50,8 +50,8 @@ func (c *LoggieV1beta1Client) LogConfigs(namespace string) LogConfigInterface {
 	return newLogConfigs(c, namespace)
 }
 
-func (c *LoggieV1beta1Client) Sinks(namespace string) SinkInterface {
-	return newSinks(c, namespace)
+func (c *LoggieV1beta1Client) Sinks() SinkInterface {
+	return newSinks(c)
 }
 
 // NewForConfig creates a new LoggieV1beta1Client for the given config.

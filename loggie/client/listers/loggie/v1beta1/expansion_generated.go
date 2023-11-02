@@ -21,10 +21,6 @@ package v1beta1
 // ClusterLogConfigLister.
 type ClusterLogConfigListerExpansion interface{}
 
-// ClusterLogConfigNamespaceListerExpansion allows custom methods to be added to
-// ClusterLogConfigNamespaceLister.
-type ClusterLogConfigNamespaceListerExpansion interface{}
-
 // InterceptorListerExpansion allows custom methods to be added to
 // InterceptorLister.
 type InterceptorListerExpansion interface{}
@@ -44,7 +40,3 @@ type LogConfigNamespaceListerExpansion interface{}
 // SinkListerExpansion allows custom methods to be added to
 // SinkLister.
 type SinkListerExpansion interface{}
-
-// SinkNamespaceListerExpansion allows custom methods to be added to
-// SinkNamespaceLister.
-type SinkNamespaceListerExpansion interface{}

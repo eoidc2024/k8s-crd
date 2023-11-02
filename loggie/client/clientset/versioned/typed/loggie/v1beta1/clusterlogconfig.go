@@ -32,7 +32,7 @@ import (
 // ClusterLogConfigsGetter has a method to return a ClusterLogConfigInterface.
 // A group's client should implement this interface.
 type ClusterLogConfigsGetter interface {
-	ClusterLogConfigs(namespace string) ClusterLogConfigInterface
+	ClusterLogConfigs() ClusterLogConfigInterface
 }
 
 // ClusterLogConfigInterface has methods to work with ClusterLogConfig resources.
@@ -52,14 +52,12 @@ type ClusterLogConfigInterface interface {
 // clusterLogConfigs implements ClusterLogConfigInterface
 type clusterLogConfigs struct {
 	client rest.Interface
-	ns     string
 }
 
 // newClusterLogConfigs returns a ClusterLogConfigs
-func newClusterLogConfigs(c *LoggieV1beta1Client, namespace string) *clusterLogConfigs {
+func newClusterLogConfigs(c *LoggieV1beta1Client) *clusterLogConfigs {
 	return &clusterLogConfigs{
 		client: c.RESTClient(),
-		ns:     namespace,
 	}
 }
 
@@ -67,7 +65,6 @@ func newClusterLogConfigs(c *LoggieV1beta1Client, namespace string) *clusterLogC
 func (c *clusterLogConfigs) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1beta1.ClusterLogConfig, err error) {
 	result = &v1beta1.ClusterLogConfig{}
 	err = c.client.Get().
-		Namespace(c.ns).
 		Resource("clusterlogconfigs").
 		Name(name).
 		VersionedParams(&options, scheme.ParameterCodec).
@@ -84,7 +81,6 @@ func (c *clusterLogConfigs) List(ctx context.Context, opts v1.ListOptions) (resu
 	}
 	result = &v1beta1.ClusterLogConfigList{}
 	err = c.client.Get().
-		Namespace(c.ns).
 		Resource("clusterlogconfigs").
 		VersionedParams(&opts, scheme.ParameterCodec).
 		Timeout(timeout).
@@ -101,7 +97,6 @@ func (c *clusterLogConfigs) Watch(ctx context.Context, opts v1.ListOptions) (wat
 	}
 	opts.Watch = true
 	return c.client.Get().
-		Namespace(c.ns).
 		Resource("clusterlogconfigs").
 		VersionedParams(&opts, scheme.ParameterCodec).
 		Timeout(timeout).
@@ -112,7 +107,6 @@ func (c *clusterLogConfigs) Watch(ctx context.Context, opts v1.ListOptions) (wat
 func (c *clusterLogConfigs) Create(ctx context.Context, clusterLogConfig *v1beta1.ClusterLogConfig, opts v1.CreateOptions) (result *v1beta1.ClusterLogConfig, err error) {
 	result = &v1beta1.ClusterLogConfig{}
 	err = c.client.Post().
-		Namespace(c.ns).
 		Resource("clusterlogconfigs").
 		VersionedParams(&opts, scheme.ParameterCodec).
 		Body(clusterLogConfig).
@@ -125,7 +119,6 @@ func (c *clusterLogConfigs) Create(ctx context.Context, clusterLogConfig *v1beta
 func (c *clusterLogConfigs) Update(ctx context.Context, clusterLogConfig *v1beta1.ClusterLogConfig, opts v1.UpdateOptions) (result *v1beta1.ClusterLogConfig, err error) {
 	result = &v1beta1.ClusterLogConfig{}
 	err = c.client.Put().
-		Namespace(c.ns).
 		Resource("clusterlogconfigs").
 		Name(clusterLogConfig.Name).
 		VersionedParams(&opts, scheme.ParameterCodec).
@@ -140,7 +133,6 @@ func (c *clusterLogConfigs) Update(ctx context.Context, clusterLogConfig *v1beta
 func (c *clusterLogConfigs) UpdateStatus(ctx context.Context, clusterLogConfig *v1beta1.ClusterLogConfig, opts v1.UpdateOptions) (result *v1beta1.ClusterLogConfig, err error) {
 	result = &v1beta1.ClusterLogConfig{}
 	err = c.client.Put().
-		Namespace(c.ns).
 		Resource("clusterlogconfigs").
 		Name(clusterLogConfig.Name).
 		SubResource("status").
@@ -154,7 +146,6 @@ func (c *clusterLogConfigs) UpdateStatus(ctx context.Context, clusterLogConfig *
 // Delete takes name of the clusterLogConfig and deletes it. Returns an error if one occurs.
 func (c *clusterLogConfigs) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	return c.client.Delete().
-		Namespace(c.ns).
 		Resource("clusterlogconfigs").
 		Name(name).
 		Body(&opts).
@@ -169,7 +160,6 @@ func (c *clusterLogConfigs) DeleteCollection(ctx context.Context, opts v1.Delete
 		timeout = time.Duration(*listOpts.TimeoutSeconds) * time.Second
 	}
 	return c.client.Delete().
-		Namespace(c.ns).
 		Resource("clusterlogconfigs").
 		VersionedParams(&listOpts, scheme.ParameterCodec).
 		Timeout(timeout).
@@ -182,7 +172,6 @@ func (c *clusterLogConfigs) DeleteCollection(ctx context.Context, opts v1.Delete
 func (c *clusterLogConfigs) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1beta1.ClusterLogConfig, err error) {
 	result = &v1beta1.ClusterLogConfig{}
 	err = c.client.Patch(pt).
-		Namespace(c.ns).
 		Resource("clusterlogconfigs").
 		Name(name).
 		SubResource(subresources...).
