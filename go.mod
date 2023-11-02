@@ -76,3 +76,5 @@ require (
 	github.com/google/gnostic v0.5.7-v3refs // indirect
 	github.com/google/gnostic-models v0.6.8 // indirect
 )
+
+replace k8s.io/apimachinery => k8s.io/apimachinery v0.23.8
