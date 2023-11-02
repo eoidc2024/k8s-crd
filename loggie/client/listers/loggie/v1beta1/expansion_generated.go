@@ -25,10 +25,6 @@ type ClusterLogConfigListerExpansion interface{}
 // InterceptorLister.
 type InterceptorListerExpansion interface{}
 
-// InterceptorNamespaceListerExpansion allows custom methods to be added to
-// InterceptorNamespaceLister.
-type InterceptorNamespaceListerExpansion interface{}
-
 // LogConfigListerExpansion allows custom methods to be added to
 // LogConfigLister.
 type LogConfigListerExpansion interface{}

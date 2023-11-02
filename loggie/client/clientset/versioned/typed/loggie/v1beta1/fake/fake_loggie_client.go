@@ -31,8 +31,8 @@ func (c *FakeLoggieV1beta1) ClusterLogConfigs() v1beta1.ClusterLogConfigInterfac
 	return &FakeClusterLogConfigs{c}
 }
 
-func (c *FakeLoggieV1beta1) Interceptors(namespace string) v1beta1.InterceptorInterface {
-	return &FakeInterceptors{c, namespace}
+func (c *FakeLoggieV1beta1) Interceptors() v1beta1.InterceptorInterface {
+	return &FakeInterceptors{c}
 }
 
 func (c *FakeLoggieV1beta1) LogConfigs(namespace string) v1beta1.LogConfigInterface {

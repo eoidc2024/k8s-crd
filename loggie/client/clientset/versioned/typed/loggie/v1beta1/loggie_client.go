@@ -42,8 +42,8 @@ func (c *LoggieV1beta1Client) ClusterLogConfigs() ClusterLogConfigInterface {
 	return newClusterLogConfigs(c)
 }
 
-func (c *LoggieV1beta1Client) Interceptors(namespace string) InterceptorInterface {
-	return newInterceptors(c, namespace)
+func (c *LoggieV1beta1Client) Interceptors() InterceptorInterface {
+	return newInterceptors(c)
 }
 
 func (c *LoggieV1beta1Client) LogConfigs(namespace string) LogConfigInterface {

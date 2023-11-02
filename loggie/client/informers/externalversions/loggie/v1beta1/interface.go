@@ -51,7 +51,7 @@ func (v *version) ClusterLogConfigs() ClusterLogConfigInformer {
 
 // Interceptors returns a InterceptorInformer.
 func (v *version) Interceptors() InterceptorInformer {
-	return &interceptorInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+	return &interceptorInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
 }
 
 // LogConfigs returns a LogConfigInformer.
