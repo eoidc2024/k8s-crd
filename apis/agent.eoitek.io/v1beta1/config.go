@@ -1,7 +1,10 @@
 package v1beta1
 
 import (
+	"crypto/sha256"
+	"encoding/json"
 	"errors"
+	"fmt"
 )
 
 const (
@@ -166,4 +169,28 @@ func (n *Native) SetPid(pid PID) {
 
 func (n *Native) GetPid() PID {
 	return n.PID
+}
+
+func Hash(c ProfileConfig) (string, error) {
+	idHash := sha256.New()
+	cb, err := json.Marshal(c)
+	if err != nil {
+		return "", err
+	}
+	idHash.Write(cb)
+	configID := fmt.Sprintf("%x", idHash.Sum(nil))
+	return configID, nil
+}
+
+func GetKindString(i int) string {
+	switch i {
+	case JAVAASYNC:
+		return string(JAVA)
+	case GOPPROF:
+		return string(GO)
+	case NATIVE:
+		return string(C)
+	default:
+		return string(UNKNOWN)
+	}
 }
