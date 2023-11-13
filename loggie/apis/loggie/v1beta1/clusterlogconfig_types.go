@@ -97,7 +97,7 @@ func (in *ClusterLogConfig) Validate() error {
 	}
 
 	tp := in.Spec.Selector.Type
-	if tp != SelectorTypePod && tp != SelectorTypeNode && tp != SelectorTypeCluster {
+	if tp != SelectorTypePod && tp != SelectorTypeNode && tp != SelectorTypeCluster && tp != SelectorTypeWorkload {
 		return errors.New("spec.selector.type is invalid")
 	}
 
