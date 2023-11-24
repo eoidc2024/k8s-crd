@@ -52,8 +52,8 @@ type ProfileConfigList struct {
 }
 
 func (in *ProfileConfig) Validate() error {
-	if in.Spec.Java == nil && in.Spec.Golang == nil && in.Spec.Native == nil {
-		return errors.New("spec.pipelines is required")
+	if in.Spec.Java == nil && in.Spec.Golang == nil && in.Spec.Native == nil && in.Spec.SwProfileConfig == nil {
+		return errors.New("spec.pipelines(SwProfileConfig) is required")
 	}
 
 	if in.Spec.Selector == nil {
