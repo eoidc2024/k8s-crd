@@ -18,8 +18,8 @@ limitations under the License.
 package loggie
 
 import (
-	internalinterfaces "code.eoitek.net/monitor/dc/k8s-crd/loggie/client/informers/externalversions/internalinterfaces"
-	v1beta1 "code.eoitek.net/monitor/dc/k8s-crd/loggie/client/informers/externalversions/loggie/v1beta1"
+	internalinterfaces "github.com/eoidc2024/k8s-crd/loggie/client/informers/externalversions/internalinterfaces"
+	v1beta1 "github.com/eoidc2024/k8s-crd/loggie/client/informers/externalversions/loggie/v1beta1"
 )
 
 // Interface provides access to each of this group's versions.

@@ -18,9 +18,9 @@ limitations under the License.
 package fake
 
 import (
-	clientset "code.eoitek.net/monitor/dc/k8s-crd/datadog/client/clientset/versioned"
-	agentv1beta1 "code.eoitek.net/monitor/dc/k8s-crd/datadog/client/clientset/versioned/typed/agent.eoitek.io/v1beta1"
-	fakeagentv1beta1 "code.eoitek.net/monitor/dc/k8s-crd/datadog/client/clientset/versioned/typed/agent.eoitek.io/v1beta1/fake"
+	clientset "github.com/eoidc2024/k8s-crd/datadog/client/clientset/versioned"
+	agentv1beta1 "github.com/eoidc2024/k8s-crd/datadog/client/clientset/versioned/typed/agent.eoitek.io/v1beta1"
+	fakeagentv1beta1 "github.com/eoidc2024/k8s-crd/datadog/client/clientset/versioned/typed/agent.eoitek.io/v1beta1/fake"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/watch"
 	"k8s.io/client-go/discovery"

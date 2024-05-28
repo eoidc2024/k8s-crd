@@ -21,7 +21,7 @@ import (
 	"fmt"
 	"net/http"
 
-	agentv1beta1 "code.eoitek.net/monitor/dc/k8s-crd/datadog/client/clientset/versioned/typed/agent.eoitek.io/v1beta1"
+	agentv1beta1 "github.com/eoidc2024/k8s-crd/datadog/client/clientset/versioned/typed/agent.eoitek.io/v1beta1"
 	discovery "k8s.io/client-go/discovery"
 	rest "k8s.io/client-go/rest"
 	flowcontrol "k8s.io/client-go/util/flowcontrol"

@@ -21,7 +21,7 @@ import (
 	"fmt"
 	"net/http"
 
-	loggiev1beta1 "code.eoitek.net/monitor/dc/k8s-crd/loggie/client/clientset/versioned/typed/loggie/v1beta1"
+	loggiev1beta1 "github.com/eoidc2024/k8s-crd/loggie/client/clientset/versioned/typed/loggie/v1beta1"
 	discovery "k8s.io/client-go/discovery"
 	rest "k8s.io/client-go/rest"
 	flowcontrol "k8s.io/client-go/util/flowcontrol"

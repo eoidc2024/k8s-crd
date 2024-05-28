@@ -20,8 +20,8 @@ package v1beta1
 import (
 	"net/http"
 
-	v1beta1 "code.eoitek.net/monitor/dc/k8s-crd/loggie/apis/loggie/v1beta1"
-	"code.eoitek.net/monitor/dc/k8s-crd/loggie/client/clientset/versioned/scheme"
+	v1beta1 "github.com/eoidc2024/k8s-crd/loggie/apis/loggie/v1beta1"
+	"github.com/eoidc2024/k8s-crd/loggie/client/clientset/versioned/scheme"
 	rest "k8s.io/client-go/rest"
 )
 

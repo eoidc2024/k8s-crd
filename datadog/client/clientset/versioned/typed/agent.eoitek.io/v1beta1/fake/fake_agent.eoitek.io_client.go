@@ -18,7 +18,7 @@ limitations under the License.
 package fake
 
 import (
-	v1beta1 "code.eoitek.net/monitor/dc/k8s-crd/datadog/client/clientset/versioned/typed/agent.eoitek.io/v1beta1"
+	v1beta1 "github.com/eoidc2024/k8s-crd/datadog/client/clientset/versioned/typed/agent.eoitek.io/v1beta1"
 	rest "k8s.io/client-go/rest"
 	testing "k8s.io/client-go/testing"
 )

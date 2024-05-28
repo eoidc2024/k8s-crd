@@ -15,14 +15,14 @@ Already a pro? Just edit this README.md and make it your own. Want to make it ea
 
 ```
 cd existing_repo
-git remote add origin https://code.eoitek.net/monitor/dc/k8s-crd.git
+git remote add origin https://github.com/eoidc2024/k8s-crd.git
 git branch -M main
 git push -uf origin main
 ```
 
 ## Integrate with your tools
 
-- [ ] [Set up project integrations](https://code.eoitek.net/monitor/dc/k8s-crd/-/settings/integrations)
+- [ ] [Set up project integrations](https://github.com/eoidc2024/k8s-crd/-/settings/integrations)
 
 ## Collaborate with your team
 

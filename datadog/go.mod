@@ -1,4 +1,4 @@
-module code.eoitek.net/monitor/dc/k8s-crd/datadog
+module github.com/eoidc2024/k8s-crd/datadog
 
 go 1.19
 

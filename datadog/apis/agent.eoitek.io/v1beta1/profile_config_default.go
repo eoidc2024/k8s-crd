@@ -1,7 +1,7 @@
 package v1beta1
 
 import (
-	"code.eoitek.net/monitor/dc/k8s-crd/datadog/utils"
+	"github.com/eoidc2024/k8s-crd/datadog/utils"
 	"math"
 	"time"
 )

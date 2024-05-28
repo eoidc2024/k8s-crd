@@ -20,7 +20,7 @@ package internalinterfaces
 import (
 	time "time"
 
-	versioned "code.eoitek.net/monitor/dc/k8s-crd/loggie/client/clientset/versioned"
+	versioned "github.com/eoidc2024/k8s-crd/loggie/client/clientset/versioned"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	cache "k8s.io/client-go/tools/cache"

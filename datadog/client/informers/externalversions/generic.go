@@ -20,7 +20,7 @@ package externalversions
 import (
 	"fmt"
 
-	v1beta1 "code.eoitek.net/monitor/dc/k8s-crd/datadog/apis/agent.eoitek.io/v1beta1"
+	v1beta1 "github.com/eoidc2024/k8s-crd/datadog/apis/agent.eoitek.io/v1beta1"
 	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	cache "k8s.io/client-go/tools/cache"
 )

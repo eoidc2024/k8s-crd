@@ -18,7 +18,7 @@ limitations under the License.
 package scheme
 
 import (
-	loggiev1beta1 "code.eoitek.net/monitor/dc/k8s-crd/loggie/apis/loggie/v1beta1"
+	loggiev1beta1 "github.com/eoidc2024/k8s-crd/loggie/apis/loggie/v1beta1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	schema "k8s.io/apimachinery/pkg/runtime/schema"

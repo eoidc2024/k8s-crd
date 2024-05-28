@@ -22,9 +22,9 @@ import (
 	sync "sync"
 	time "time"
 
-	versioned "code.eoitek.net/monitor/dc/k8s-crd/loggie/client/clientset/versioned"
-	internalinterfaces "code.eoitek.net/monitor/dc/k8s-crd/loggie/client/informers/externalversions/internalinterfaces"
-	loggie "code.eoitek.net/monitor/dc/k8s-crd/loggie/client/informers/externalversions/loggie"
+	versioned "github.com/eoidc2024/k8s-crd/loggie/client/clientset/versioned"
+	internalinterfaces "github.com/eoidc2024/k8s-crd/loggie/client/informers/externalversions/internalinterfaces"
+	loggie "github.com/eoidc2024/k8s-crd/loggie/client/informers/externalversions/loggie"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	schema "k8s.io/apimachinery/pkg/runtime/schema"

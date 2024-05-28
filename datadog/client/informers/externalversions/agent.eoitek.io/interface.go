@@ -18,8 +18,8 @@ limitations under the License.
 package agent
 
 import (
-	v1beta1 "code.eoitek.net/monitor/dc/k8s-crd/datadog/client/informers/externalversions/agent.eoitek.io/v1beta1"
-	internalinterfaces "code.eoitek.net/monitor/dc/k8s-crd/datadog/client/informers/externalversions/internalinterfaces"
+	v1beta1 "github.com/eoidc2024/k8s-crd/datadog/client/informers/externalversions/agent.eoitek.io/v1beta1"
+	internalinterfaces "github.com/eoidc2024/k8s-crd/datadog/client/informers/externalversions/internalinterfaces"
 )
 
 // Interface provides access to each of this group's versions.

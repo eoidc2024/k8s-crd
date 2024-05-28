@@ -29,7 +29,7 @@ echo "dir:$(dirname "${BASH_SOURCE[0]}")/../"
 #                  instead of the $GOPATH directly. For normal projects this can be dropped.
 
   bash "${CODEGEN_PKG}"/generate-groups.sh all \
-    code.eoitek.net/monitor/dc/k8s-crd/datadog/client code.eoitek.net/monitor/dc/k8s-crd/datadog/apis \
+    github.com/eoidc2024/k8s-crd/datadog/client github.com/eoidc2024/k8s-crd/datadog/apis \
     agent.eoitek.io:v1beta1 \
     --output-base "$(dirname "${BASH_SOURCE[0]}")/../" \
     --go-header-file "${SCRIPT_ROOT}"hack/boilerplate.go.txt

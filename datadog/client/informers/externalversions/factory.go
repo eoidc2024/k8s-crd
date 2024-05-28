@@ -22,9 +22,9 @@ import (
 	sync "sync"
 	time "time"
 
-	versioned "code.eoitek.net/monitor/dc/k8s-crd/datadog/client/clientset/versioned"
-	agenteoitekio "code.eoitek.net/monitor/dc/k8s-crd/datadog/client/informers/externalversions/agent.eoitek.io"
-	internalinterfaces "code.eoitek.net/monitor/dc/k8s-crd/datadog/client/informers/externalversions/internalinterfaces"
+	versioned "github.com/eoidc2024/k8s-crd/datadog/client/clientset/versioned"
+	agenteoitekio "github.com/eoidc2024/k8s-crd/datadog/client/informers/externalversions/agent.eoitek.io"
+	internalinterfaces "github.com/eoidc2024/k8s-crd/datadog/client/informers/externalversions/internalinterfaces"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	schema "k8s.io/apimachinery/pkg/runtime/schema"
